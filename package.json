@@ -4,7 +4,7 @@
   "description": "Demo Team notification tool",
   "main": "index.js",
   "scripts": {
-    "start": "electron"
+    "start": "electron index.js"
   },
   "author": "",
   "license": "ISC",

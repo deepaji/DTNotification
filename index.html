@@ -5,9 +5,40 @@
       <title>Hello World!</title>
     </head>
     <body>
-      <h1>Hello World!</h1>
+
+        <script src="https://js.pusher.com/4.2/pusher.min.js"></script>
+        
+        <script lang="javascript">
+
+/*
+    app_id = "466192"
+key = "a8caed348926f9c08aba"
+secret = "6b07cb4bc18a98fea2a0"
+cluster = "us2"
+  */
+    
+    var pusher = new Pusher('466192', {
+            cluster: 'us2'
+    }); 
+
+    let channel = pusher.subscribe('mychannel')
+
+    channel.bind('mychannel', function(data) {
+        alert('Message received: ' + data.message)
+    });
+
+function sendMessage() {
+    //alert('test')
+    pusher.trigger('mychannel', 'testevent', {'message': 'test event'})
+}
+
+         </script>
+
+<button onclick='sendMessage()'>Send Message</button>
+
+      <!-- <h1>Hello World!</h1>
       We are using node <script>document.write(process.versions.node)</script>,
       Chrome <script>document.write(process.versions.chrome)</script>,
-      and Electron <script>document.write(process.versions.electron)</script>.
+      and Electron <script>document.write(process.versions.electron)</script>. -->
     </body>
   </html>
