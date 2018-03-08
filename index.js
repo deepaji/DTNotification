@@ -3,9 +3,8 @@ const {app,BrowserWindow} = require('electron')
   const path = require('path')
   const url = require('url')
 
-//  let remote = require('remote')
-  //let app2 = remote.require('app')
- // console.log(app.getAppPath())
+  const Pusher = require('pusher')
+
 let win
 function createWindow()
 {
@@ -19,6 +18,38 @@ function createWindow()
     slashes : true
     }))
     
+
+/*
+    app_id = "466192"
+key = "a8caed348926f9c08aba"
+secret = "6b07cb4bc18a98fea2a0"
+cluster = "us2"
+  */
+
+  let pusher = new Pusher({
+      appId: '466192',
+      key: 'a8caed348926f9c08aba',
+      secret: '6b07cb4bc18a98fea2a0',
+      cluster: 'us2'
+  })
+
+  setInterval(function() {
+      console.log('timeout...')
+      pusher.trigger('mychannel', 
+      'electron', 
+      {
+          message: "test from electron"
+      },
+       null, 
+      function(err, req, res) {
+          if(err) {
+              console.error(err)
+          }
+          console.log(req)
+          console.log(res)
+      })
+  }, 5000)
+
     //open dev tools
     win.webContents.openDevTools()
     
