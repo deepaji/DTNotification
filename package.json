@@ -1,0 +1,14 @@
+{
+  "name": "dtnotify",
+  "version": "1.0.0",
+  "description": "Demo Team notification tool",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^1.8.3"
+  }
+}
