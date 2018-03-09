@@ -1,49 +1,87 @@
 <!DOCTYPE html>
-  <html>
-    <head>
-      <meta charset="UTF-8">
-      <title>Hello World!</title>
-    </head>
-    <body>
+<html>
 
-        <script src="https://js.pusher.com/4.2/pusher.min.js"></script>
-        
-        <script lang="javascript">
+<head>
+  <meta charset="UTF-8">
+  <title>Hello World!</title>
 
-/*
-    app_id = "466192"
-key = "a8caed348926f9c08aba"
-secret = "6b07cb4bc18a98fea2a0"
-cluster = "us2"
-  */
-    // let config = {
-    //     secret: ''
-    // }
+  <script src="https://js.pusher.com/4.2/pusher.min.js"></script>
+</head>
 
-    // config.cluster = 'us2'
+<style>
+  webview {
+    display: inline-flex;
+    width: 100%;
+    height: 100vh;
+  }
 
-    var pusher = new Pusher('466192', {
-            cluster: 'us2'
-    }); 
+  webview.hide {
+    visibility: hidden;
+  }
+</style>
+
+<body>
+
+  <!-- <div class='indicator'>Indicator....</div> -->
+  <webview id="foo" src=""></webview>
+
+  <script lang="javascript">
+
+    /*
+        app_id = "466192"
+    key = "a8caed348926f9c08aba"
+    secret = "6b07cb4bc18a98fea2a0"
+    cluster = "us2"
+      */
+
+    Pusher.logToConsole = true;
+    var pusher = new Pusher('a8caed348926f9c08aba', {
+      cluster: 'us2'
+    })
 
     let channel = pusher.subscribe('mychannel')
 
-    channel.bind('mychannel', function(data) {
-        alert('Message received: ' + data.message)
-    });
+    channel.bind('myevent', function (data) {
+      console.log('Message received: ', data.message)
 
-function sendMessage() {
-    //alert('test')
-    pusher.trigger('mychannel', 'testevent', {'message': 'test event'})
-}
+      // Renderer Notification
+      let myNotification = new Notification('Message Received', {
+        body: data.message
+      })
 
-         </script>
+      myNotification.onclick = () => {
+        console.log('Notification clicked')
 
-<button onclick='sendMessage()'>Send Message</button>
+        webview.src = 'http://' + data.url
+      }
+    })
 
-      <!-- <h1>Hello World!</h1>
+
+    const webview = document.querySelector('webview')
+    // const indicator = document.querySelector('.indicator')
+
+    // const loadstart = () => {
+    //   indicator.innerText = 'loading...'
+    // }
+
+    // const loadstop = () => {
+    //   indicator.innerText = ''
+    // }
+
+    // webview.addEventListener('did-start-loading', loadstart)
+    // webview.addEventListener('did-stop-loading', loadstop)
+
+   
+
+  </script>
+
+  <!-- <button onclick='sendMessage()'>Send Message</button> -->
+
+  <!-- <h1>Hello World!</h1>
       We are using node <script>document.write(process.versions.node)</script>,
       Chrome <script>document.write(process.versions.chrome)</script>,
       and Electron <script>document.write(process.versions.electron)</script>. -->
-    </body>
-  </html>
+
+</body>
+
+</html>
